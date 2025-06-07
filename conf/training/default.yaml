@@ -1,0 +1,38 @@
+# Training parameters
+batch_size: 32
+num_workers: 4
+seed: 42
+
+trainer:
+  max_epochs: 10
+  accelerator: auto
+  devices: 1
+  precision: 32
+  deterministic: true
+  enable_progress_bar: true
+  enable_model_summary: true
+  enable_checkpointing: true
+  default_root_dir: ${paths.models_dir}
+
+callbacks:
+  early_stopping:
+    monitor: val_loss
+    patience: 10
+    mode: min
+  model_checkpoint:
+    monitor: val_loss
+    save_top_k: 1
+    mode: min
+    filename: best_model
+
+optimizer:
+  name: adam
+  lr: 0.001
+  weight_decay: 0.0001
+
+scheduler:
+  name: reduce_lr_on_plateau
+  monitor: val_loss
+  factor: 0.1
+  patience: 5
+  min_lr: 1.0e-6

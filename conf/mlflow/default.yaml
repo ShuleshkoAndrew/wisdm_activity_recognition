@@ -1,0 +1,3 @@
+tracking_uri: ${oc.env:MLFLOW_TRACKING_URI,file://${oc.env:PROJECT_ROOT}/mlruns}
+experiment_name: wisdm_activity_recognition
+model_name: cnn_lstm_v1

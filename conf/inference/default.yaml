@@ -1,0 +1,13 @@
+# Inference settings
+data_path: ${paths.data_dir}/raw/WISDM_ar_v1.1/WISDM_ar_v1.1_raw.txt  # Path to input data file
+batch_size: 32
+num_workers: 4
+
+# Output settings
+output_path: ${paths.data_dir}/predictions.csv  # Path to save predictions
+output_format: "csv"  # Output format (csv or json)
+
+# Model settings
+use_onnx: true  # Whether to use ONNX model or PyTorch checkpoint
+model_path: ${paths.onnx_dir}/model.onnx  # Path to ONNX model
+checkpoint_path: ${paths.models_dir}/best_model.ckpt  # Path to PyTorch checkpoint

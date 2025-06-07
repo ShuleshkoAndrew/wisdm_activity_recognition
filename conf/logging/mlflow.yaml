@@ -1,0 +1,4 @@
+# MLflow configuration
+tracking_uri: "http://localhost:5000"  # MLflow server
+experiment_name: "wisdm_activity_recognition"
+model_name: "cnn_lstm_v1"

@@ -1,0 +1,13 @@
+# Data paths
+data_dir: ${oc.env:PROJECT_ROOT}/data
+raw_data: ${paths.data_dir}/raw
+processed_data: ${paths.data_dir}/processed
+
+# Model paths
+models_dir: ${oc.env:PROJECT_ROOT}/models
+checkpoints_dir: ${models_dir}/checkpoints
+onnx_dir: ${paths.models_dir}/onnx
+plots_dir: ${oc.env:PROJECT_ROOT}/plots
+
+# MLflow paths
+mlruns_dir: ${oc.env:PROJECT_ROOT}/mlruns

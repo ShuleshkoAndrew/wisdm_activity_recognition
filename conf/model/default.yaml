@@ -1,0 +1,40 @@
+model_type: "cnn_lstm"
+
+cnn_lstm:
+  cnn_layers: [64, 128, 256]
+  cnn_kernel_size: 3
+  lstm_hidden_size: 128
+  lstm_num_layers: 2
+  dropout: 0.3
+  bidirectional: true
+
+training:
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  max_epochs: 100
+  early_stopping_patience: 10
+
+optimizer:
+  name: "adam"
+  params:
+    betas: [0.9, 0.999]
+    eps: 1e-8
+
+scheduler:
+  name: "reduce_on_plateau"
+  params:
+    mode: "min"
+    factor: 0.1
+    patience: 5
+    min_lr: 1e-6
+
+# Model architecture
+n_channels: 3  # x, y, z acceleration
+n_classes: 6  # Number of activities
+window_size: ${window_size}  # Reference shared parameter
+window_overlap: ${window_overlap}  # Reference shared parameter
+sampling_rate: ${sampling_rate}  # Reference shared parameter
+hidden_size: 64  # LSTM hidden state size
+n_lstm_layers: 2  # Number of LSTM layers
+dropout: 0.5  # Dropout probability

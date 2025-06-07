@@ -1,0 +1,16 @@
+preprocessing:
+  window_size: 100  # 5 seconds at 20Hz
+  window_overlap: 0.5  # 50% overlap
+  sampling_rate: 20  # Hz
+  random_seed: 42
+
+  # Split sizes (must sum to 1.0)
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+
+  # Preprocessing options
+  normalize: true
+  standardize: true
+  remove_outliers: true
+  outlier_threshold: 3.0
