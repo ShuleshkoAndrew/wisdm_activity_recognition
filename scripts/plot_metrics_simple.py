@@ -45,11 +45,11 @@ def main(cfg: DictConfig) -> None:
         return
 
     client = mlflow.tracking.MlflowClient()
-    
+
     # Create separate plots for each metric group
     for metric_group, config in cfg.plotting.metrics.items():
         metrics_df = pd.DataFrame()
-        
+
         for metric in config.metrics:
             metric_values = []
             steps = []
@@ -57,45 +57,50 @@ def main(cfg: DictConfig) -> None:
                 history = client.get_metric_history(run_data.run_id, metric)
                 metric_values.extend([h.value for h in history])
                 steps.extend([h.step for h in history])
-            
+
             if metric_values:
                 # Extract phase (train/val/test) from metric name
-                phase = metric.split('_')[0]
-                metrics_df = pd.concat([
-                    metrics_df,
-                    pd.DataFrame({
-                        'step': steps,
-                        'value': metric_values,
-                        'phase': [phase] * len(steps)
-                    })
-                ], ignore_index=True)
+                phase = metric.split("_")[0]
+                metrics_df = pd.concat(
+                    [
+                        metrics_df,
+                        pd.DataFrame(
+                            {
+                                "step": steps,
+                                "value": metric_values,
+                                "phase": [phase] * len(steps),
+                            }
+                        ),
+                    ],
+                    ignore_index=True,
+                )
 
         if not metrics_df.empty:
             plt.figure(figsize=cfg.plotting.figure_size)
-            
+
             # Plot with custom styling
-            for phase in metrics_df['phase'].unique():
-                phase_data = metrics_df[metrics_df['phase'] == phase]
+            for phase in metrics_df["phase"].unique():
+                phase_data = metrics_df[metrics_df["phase"] == phase]
                 plt.plot(
-                    phase_data['step'], 
-                    phase_data['value'],
+                    phase_data["step"],
+                    phase_data["value"],
                     marker=cfg.plotting.markers[phase],
                     color=cfg.plotting.colors[phase],
                     label=phase,
-                    alpha=0.8
+                    alpha=0.8,
                 )
 
             plt.title(f"{metric_group.capitalize()} During Training")
             plt.xlabel("Step")
             plt.ylabel(config.ylabel)
             plt.legend()
-            
+
             # Save plot
             plot_dir = Path(cfg.paths.plots_dir) / "metrics"
             plot_dir.mkdir(parents=True, exist_ok=True)
             plt.savefig(plot_dir / f"{metric_group}.png", dpi=cfg.plotting.dpi)
             plt.close()
-            
+
             logger.info(f"Saved {metric_group} plot to {plot_dir}/{metric_group}.png")
 
 
